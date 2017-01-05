@@ -133,9 +133,9 @@ func isSeparator(b byte) bool {
 // the realWriter too.
 type connegResponseWriter struct {
 	Suppressed  bool
+	wroteHeader bool
 	realWriter  http.ResponseWriter
 	header      http.Header
-	wroteHeader bool
 }
 
 func (w *connegResponseWriter) Header() http.Header {
