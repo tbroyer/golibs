@@ -178,7 +178,7 @@ func (w *connegResponseWriter) Write(b []byte) (int, error) {
 // ReadFrom is here to optimize copying from an *os.File regular file,
 // because we know the default http.ResponseWriter is an io.ReaderFrom
 // and http.FileServer takes advantage of it.
-func (w *connegResponseWriter) ReadFrom(src io.Reader) (n int64, err error) {
+func (w *connegResponseWriter) ReadFrom(src io.Reader) (int64, error) {
 	if w.Suppressed {
 		return 0, nil
 	}
