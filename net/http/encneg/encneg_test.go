@@ -221,7 +221,14 @@ func TestGetWriter(t *testing.T) {
 		if c, ok := w.(io.Closer); ok {
 			c.Close()
 		}
+
+		if g, e := rec.Header().Get("Vary"), "Accept-Encoding"; g != e {
+			t.Errorf("test %s: vary = %q, want %q", ae.ae, g, e)
+		}
 		if ae.expectsGzip {
+			if g, e := rec.Header().Get("Content-Encoding"), "gzip"; g != e {
+				t.Errorf("test %s: content-encoding = %q, want %q", ae.ae, g, e)
+			}
 			if _, ok := w.(io.Closer); !ok {
 				t.Errorf("test %s: GetWriter didn't return an io.Closer; got %s, wanted gzip.Writer", ae.ae, reflect.TypeOf(w).Name())
 			}
@@ -233,6 +240,9 @@ func TestGetWriter(t *testing.T) {
 				t.Errorf("test %s: body = %q, want %q", ae.ae, g, e)
 			}
 		} else {
+			if g, e := rec.Header().Get("Content-Encoding"), ""; g != e {
+				t.Errorf("test %s: content-encoding = %q, want %q", ae.ae, g, e)
+			}
 			if w != rec {
 				t.Errorf("GetWriter didn't return the http.ResponseWriter directly; got %s, wanted httptest.ResponseRecorder", reflect.TypeOf(w).Name())
 			}

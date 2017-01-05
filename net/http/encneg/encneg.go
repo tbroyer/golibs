@@ -250,6 +250,7 @@ func (r *responseWithContentEncoding) ReadFrom(src io.Reader) (n int64, err erro
 func GetWriter(w http.ResponseWriter, r *http.Request) io.Writer {
 	w.Header().Add("Vary", "Accept-Encoding")
 	if hasToken(r.Header.Get("Accept-Encoding"), "gzip") {
+		w.Header().Set("Content-Encoding", "gzip")
 		return gzip.NewWriter(w)
 	}
 	return w
