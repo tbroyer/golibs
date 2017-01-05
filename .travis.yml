@@ -1,0 +1,17 @@
+language: go
+go:
+ - 1.7
+ - master
+go_import_path: go.ltgt.net
+
+install:
+ - go get -d -t ./...
+
+before_script:
+ - go get github.com/alecthomas/gometalinter
+ - gometalinter --install
+
+script:
+ - go install ./...
+ - go test -v ./...
+ - gometalinter --disable=errcheck --cyclo-over=20 ./...
