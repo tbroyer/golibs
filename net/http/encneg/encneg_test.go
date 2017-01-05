@@ -244,7 +244,7 @@ func TestGetWriter(t *testing.T) {
 				t.Errorf("test %s: content-encoding = %q, want %q", ae.ae, g, e)
 			}
 			if w != rec {
-				t.Errorf("GetWriter didn't return the http.ResponseWriter directly; got %s, wanted httptest.ResponseRecorder", reflect.TypeOf(w).Name())
+				t.Errorf("test %s: GetWriter didn't return the http.ResponseWriter directly; got %s, wanted httptest.ResponseRecorder", ae.ae, reflect.TypeOf(w).Name())
 			}
 			if g, e := rec.Body.String(), "Hello World!"; g != e {
 				t.Errorf("test %s: body = %q, want %q", ae.ae, g, e)
